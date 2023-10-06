@@ -11,9 +11,15 @@
           <li><router-link :to="{ name: 'Blog' }">Blog</router-link></li>
           <li><router-link :to="{ name: 'About' }">About</router-link></li>
           <li><router-link :to="{ name: 'Contact' }">Contact</router-link></li>
-          <li><router-link :to="{ name: 'Login' }">Login</router-link></li>
-          <li><router-link :to="{ name: 'Register' }">Register</router-link></li>
-          <li><router-link :to="{ name: 'Dashboard' }">Dashboard</router-link></li>
+          <li v-if="!loggedIn">
+            <router-link :to="{ name: 'Register' }">Register</router-link>
+          </li>
+          <li v-if="!loggedIn">
+            <router-link :to="{ name: 'Login' }">Login</router-link>
+          </li>
+          <li v-if="loggedIn">
+            <router-link :to="{ name: 'Dashboard' }">Dashboard</router-link>
+          </li>
         </ul>
       </div>
 
@@ -36,7 +42,7 @@
     </div>
     <!-- main -->
     <main class="container">
-      <router-view></router-view>
+      <router-view @update-sidebar="updateSidebar"></router-view>
     </main>
 
     <!-- Main footer -->
@@ -46,13 +52,33 @@
         <a href=""><i class="fab fa-instagram"></i></a>
         <a href=""><i class="fab fa-twitter"></i></a>
       </div>
-      <small>&copy; 2021 Alphayo Blog</small>
+      <small>&copy; 2023 Al amin Blog</small>
     </footer>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      loggedIn: false,
+    };
+  },
+
+  methods: {
+    updateSidebar() {
+      this.loggedIn = !this.loggedIn;
+    },
+  },
+
+  mounted() {
+    if (localStorage.getItem("authenticated")) {
+      this.loggedIn = true;
+    } else {
+      this.loggedIn = false;
+    }
+  },
+};
 </script>
 
 <style lang="scss" scoped>

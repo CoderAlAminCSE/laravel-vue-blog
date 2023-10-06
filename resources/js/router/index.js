@@ -41,19 +41,37 @@ const router = createRouter({
             path: '/login',
             name: 'Login',
             component: LoginPage,
+            meta: { requiresGuest: true }
         },
         {
             path: '/register',
             name: 'Register',
             component: RegisterPage,
+            meta: { requiresGuest: true }
         },
         {
             path: '/dashboard',
             name: 'Dashboard',
             component: DashboardPage,
+            meta: { requiresAuth: true }
         },
 
     ]
-})
+});
 
+router.beforeEach((to, from) => {
+    const authenticated = localStorage.getItem('authenticated')
+
+    if (to.meta.requiresGuest && authenticated) {
+        return {
+            name: "Dashboard"
+        }
+    } else if (to.meta.requiresAuth && !authenticated) {
+        return {
+            name: "Login"
+        }
+    }
+});
 export default router
+
+

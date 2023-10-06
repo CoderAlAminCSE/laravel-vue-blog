@@ -1,12 +1,16 @@
 <template>
   <div id="backend-view">
-    <form>
+    <form @submit.prevent="login">
       <h3>Login here</h3>
       <label for="email">Email</label>
-      <input type="text" id="email" />
+      <input type="text" id="email" v-model="fields.email" />
+      <span v-if="errors.email" class="error"> {{ errors.email[0] }} </span>
 
       <label for="password">Password</label>
-      <input type="text" id="password" />
+      <input type="text" id="password" v-model="fields.password" />
+      <span v-if="errors.password" class="error">
+        {{ errors.password[0] }}
+      </span>
 
       <button type="submti">Log In</button>
       <span>Don't have an account? <a href="">Sing Up</a> </span>
@@ -15,7 +19,29 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      fields: {},
+      errors: {},
+    };
+  },
+
+  methods: {
+    login() {
+      axios
+        .post("/api/login", this.fields)
+        .then(() => {
+          this.$router.push({ name: "Dashboard" });
+          localStorage.setItem('authenticated', true)
+          this.$emit('updateSidebar')
+        })
+        .catch((error) => {
+          this.errors = error.response.data.errors;
+        });
+    },
+  },
+};
 </script>
 
 <style scoped>
