@@ -6,8 +6,16 @@
     <div class="links">
       <ul>
         <li><a href="">Create Post</a></li>
-        <li><a href="">Create Category</a></li>
-        <li><a href="">Category List</a></li>
+        <li>
+          <router-link :to="{ name: 'CreateCategories' }"
+            >Create Category</router-link
+          >
+        </li>
+        <li>
+          <router-link :to="{ name: 'CategoriesList' }"
+            >Category List</router-link
+          >
+        </li>
       </ul>
     </div>
   </div>

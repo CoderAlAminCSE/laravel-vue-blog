@@ -7,6 +7,9 @@ import ContactPage from '../pages/Contact.vue'
 import LoginPage from '../pages/Login.vue'
 import RegisterPage from '../pages/Register.vue'
 import DashboardPage from '../pages/Dashboard.vue'
+import CreateCategories from '../pages/categories/CreateCategory.vue'
+import CategoriesList from '../pages/categories/CategoriesList.vue'
+import EditCategory from '../pages/categories/editCategory.vue'
 
 const router = createRouter({
     history: createWebHistory(),
@@ -54,6 +57,25 @@ const router = createRouter({
             name: 'Dashboard',
             component: DashboardPage,
             meta: { requiresAuth: true }
+        },
+        {
+            path: '/categories/create',
+            name: 'CreateCategories',
+            component: CreateCategories,
+            meta: { requiresAuth: true }
+        },
+        {
+            path: '/categories',
+            name: 'CategoriesList',
+            component: CategoriesList,
+            meta: { requiresAuth: true }
+        },
+        {
+            path: '/category/:id/edit',
+            name: 'EditCategory',
+            component: EditCategory,
+            meta: { requiresAuth: true },
+            props: true
         },
 
     ]
